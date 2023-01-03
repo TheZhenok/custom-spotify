@@ -10,7 +10,7 @@ Athor
     date_start
     followrs: int
 
-Gange
+Genre
     title
 
 Music
