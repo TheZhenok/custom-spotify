@@ -4,6 +4,10 @@ import os
 
 from settings.conf import *
 
+import mimetypes
+
+
+mimetypes.add_type("application/javascript", ".js", True)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(BASE_DIR)
@@ -19,7 +23,7 @@ DJANGO_AND_THIRD_PARTY_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "debug_toolbar",
+    'debug_toolbar',
     'django_extensions',
 ]
 
@@ -32,6 +36,7 @@ PROJECT_APPS = [
 INSTALLED_APPS = DJANGO_AND_THIRD_PARTY_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +88,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# ТУТ
+
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Asia/Almaty'
@@ -93,5 +100,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
