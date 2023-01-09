@@ -1,7 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import QuerySet
 
-from abstracts.models import AbstractModel
+from abstracts.models import (
+    AbstractModel,
+    AbstractManager,
+    AbstractQuerySet
+)
 
 
 class Author(AbstractModel):
@@ -51,6 +56,18 @@ class Genre(AbstractModel):
 
     def __str__(self) -> str:
         return self.title
+
+
+class MusicManager(AbstractManager):
+    """Manager special for Music."""
+
+    def get_music_by_genre(self, title: str) -> QuerySet['Music']:
+        id: str =\
+            Genre.objects.get(title=title).id
+        return self.filter(
+            genre=id
+        )
+
 
 
 class Music(AbstractModel):

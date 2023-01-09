@@ -20,6 +20,11 @@ class AbstractManager(models.Manager):
             datetime_deleted__isnull=True
         )
 
+    def get_deleted(self) -> QuerySet:
+        return self.filter(
+            datetime_deleted__isnull=False
+        )
+
     def get_queryset(self) -> QuerySet['AbstractQuerySet']:
         return AbstractQuerySet(
             self.model,
