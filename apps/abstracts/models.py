@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models import QuerySet
 
 
 class AbstractQuerySet(models.QuerySet):
     """Pre-setup QuerySet for AbstractManager."""
 
-    def delete(self, *args, **kwargs):
+    def delete(self, *args, **kwargs) -> None:
         self.update(
             datetime_deleted=timezone.now()
         )
@@ -13,6 +14,17 @@ class AbstractQuerySet(models.QuerySet):
 
 class AbstractManager(models.Manager):
     """Manager for AbstractModel class."""
+
+    def get_not_deleted(self) -> QuerySet:
+        return self.filter(
+            datetime_deleted__isnull=True
+        )
+
+    def get_queryset(self) -> QuerySet['AbstractQuerySet']:
+        return AbstractQuerySet(
+            self.model,
+            using=self._db
+        )
 
     
 
