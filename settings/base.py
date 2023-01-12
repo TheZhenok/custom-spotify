@@ -35,6 +35,8 @@ PROJECT_APPS = [
 
 INSTALLED_APPS = DJANGO_AND_THIRD_PARTY_APPS + PROJECT_APPS
 
+AUTH_USER_MODEL = 'auths.CustomUser'
+
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',

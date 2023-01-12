@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models import QuerySet
 
 from abstracts.models import (
@@ -7,6 +6,7 @@ from abstracts.models import (
     AbstractManager,
     AbstractQuerySet
 )
+from auths.models import CustomUser
 
 
 class Author(AbstractModel):
@@ -17,12 +17,12 @@ class Author(AbstractModel):
         auto_now_add=True
     )
     followers = models.ManyToManyField(
-        to=User,
+        to=CustomUser,
         related_name="followers",
         verbose_name="подписчики"
     )
     user = models.ForeignKey(
-        to=User,
+        to=CustomUser,
         on_delete=models.CASCADE,
         verbose_name="пользователь"
     )
@@ -35,7 +35,7 @@ class Author(AbstractModel):
         verbose_name_plural = "авторы"
 
     def __str__(self) -> str:
-        return self.user.username
+        return self.user.email
 
 
 class Genre(AbstractModel):

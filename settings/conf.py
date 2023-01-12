@@ -51,3 +51,11 @@ DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.redirects.RedirectsPanel',
     'debug_toolbar.panels.profiling.ProfilingPanel',
 ]
+
+# EMAIL SENDER
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'zhenok1109@gmail.com'
+EMAIL_HOST_PASSWORD = 'gcllqymloocwtqss'
+EMAIL_PORT = 587
