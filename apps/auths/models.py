@@ -49,6 +49,8 @@ class CustomUserManager(BaseUserManager):
             password=password
         )
         custom_user.is_superuser = True
+        custom_user.is_active = True
+        custom_user.is_staff = True
         custom_user.set_password(password)
         custom_user.save(using=self._db)
         return

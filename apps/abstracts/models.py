@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.db import models
 from django.utils import timezone
 from django.db.models import QuerySet
@@ -30,6 +32,12 @@ class AbstractManager(models.Manager):
             self.model,
             using=self._db
         )
+
+    def get_by_id_or_none(self, id: int) -> Optional[object]:
+        try:
+            return self.get(id=id)
+        except:
+            return None
 
     
 
