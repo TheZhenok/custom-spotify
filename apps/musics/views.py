@@ -1,3 +1,6 @@
+# Python
+from typing import Any
+
 # Django
 from django.shortcuts import render
 from django.db.models import QuerySet
@@ -6,6 +9,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import (
     HttpRequest,
     HttpResponse,
+    QueryDict
 )
 from django.views.generic import (
     View,
@@ -46,7 +50,12 @@ class MainView(View):
 class MusicView(View):
     """View special for Music model."""
 
-    def get(self, request: HttpRequest, *args, **kwargs):
+    def get(
+        self, 
+        request: HttpRequest, 
+        *args: tuple, 
+        **kwargs: dict
+    ) -> HttpResponse:
         status: list[tuple[str]] = Music.STATUS_PATTERN
         genres: QuerySet[Genre] = Genre.objects.all()
         return render(
@@ -58,3 +67,26 @@ class MusicView(View):
             }
         )
 
+    def post(
+        self, 
+        request: HttpRequest, 
+        *args: tuple, 
+        **kwargs: dict
+    ) -> HttpResponse:
+        data: QueryDict = request.POST
+        breakpoint()
+        title = data.get('title')
+        duration = data.get('duration')
+        author = Author.objects.first()
+        genres_id: list = data.getlist('genre')
+        music: Music = Music.objects.create(
+            title=title,
+            duration=duration,
+            author=author
+        )
+        genres: QuerySet[Genre] =\
+            Genre.objects.filter(id__in=genres_id)
+        
+        music.genre.set(genres)
+
+        return HttpResponse("Ok")
