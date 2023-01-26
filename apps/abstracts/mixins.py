@@ -20,7 +20,7 @@ class HttpResponseMixin:
         
         template: Template =\
             loader.get_template(
-                template_name
+                'musics/' + template_name
             )
 
         return HttpResponse(
