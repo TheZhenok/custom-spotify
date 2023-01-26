@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import (
     HttpRequest,
     HttpResponse,
-    QueryDict
+    QueryDict,
 )
 from django.views.generic import (
     View,
@@ -22,6 +22,7 @@ from musics.models import (
     Genre,
     Author
 )
+from abstracts.mixins import HttpResponseMixin
 
 
 class MainView(View):
@@ -47,7 +48,7 @@ class MainView(View):
         )
 
 
-class MusicView(View):
+class MusicView(HttpResponseMixin, View):
     """View special for Music model."""
 
     def get(
@@ -58,7 +59,7 @@ class MusicView(View):
     ) -> HttpResponse:
         status: list[tuple[str]] = Music.STATUS_PATTERN
         genres: QuerySet[Genre] = Genre.objects.all()
-        return render(
+        return self.get_http_response(
             request=request,
             template_name='musics/music_create_page.html',
             context={
@@ -73,8 +74,8 @@ class MusicView(View):
         *args: tuple, 
         **kwargs: dict
     ) -> HttpResponse:
+
         data: QueryDict = request.POST
-        breakpoint()
         title = data.get('title')
         duration = data.get('duration')
         author = Author.objects.first()
