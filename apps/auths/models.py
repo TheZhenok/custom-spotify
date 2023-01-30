@@ -16,6 +16,7 @@ from django.core.exceptions import ValidationError
 
 # Local
 from abstracts.models import AbstractModel
+from abstracts import utils
 
 
 class CustomUserManager(BaseUserManager):
@@ -119,17 +120,5 @@ class CustomUser(
 
     def save(self, *args: tuple, **kwargs: dict) -> None:
         self.full_clean()
-        simbols: str = (
-            'qwertyuiop'
-            'asdfghjkl'
-            'zxcvbnm'
-            '1234567890'
-            '!@#$%*+'
-        )
-        code: str = ''
-        _: int
-        for _ in range(20):
-            code += random.choice(simbols)
-        
-        self.activation_code = code
+        self.activation_code = utils.generate_string()
         return super().save(*args, **kwargs)
