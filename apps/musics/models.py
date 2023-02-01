@@ -61,7 +61,7 @@ class Genre(AbstractModel):
 class MusicManager(AbstractManager):
     """Manager special for Music."""
 
-    def get_music_by_genre(self, title: str) -> QuerySet['Music']:
+    def get_music_by_genre(self, title: str) -> QuerySet["Music"]:
         id: str =\
             Genre.objects.get(title=title).id
         return self.filter(
@@ -74,9 +74,9 @@ class Music(AbstractModel):
     """Main class for music app."""
 
     STATUS_PATTERN = [
-        ('BR', 'Предрелиз'), 
-        ('R', 'Релиз'),
-        ('AR', 'Unkown')
+        ("BR", "Предрелиз"), 
+        ("R", "Релиз"),
+        ("AR", "Unkown")
     ]
 
     title = models.CharField(
@@ -99,7 +99,12 @@ class Music(AbstractModel):
         max_length=100,
         verbose_name="статус",
         choices=STATUS_PATTERN,
-        default='Unkown'
+        default="Unkown"
+    )
+    image = models.ImageField(
+        verbose_name="изображение",
+        upload_to="images/",
+        default=""
     )
 
     class Meta:

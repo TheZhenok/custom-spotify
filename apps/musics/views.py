@@ -15,6 +15,7 @@ from django.views.generic import (
     View,
     ListView,
 )
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Local
 from musics.models import (
@@ -23,6 +24,7 @@ from musics.models import (
     Author
 )
 from abstracts.mixins import HttpResponseMixin
+from abstracts import utils
 from musics.forms import (
     TempForm,
     MusicForm,
@@ -83,7 +85,14 @@ class MusicView(HttpResponseMixin, View):
         **kwargs: dict
     ) -> HttpResponse:
 
-        data: MusicForm = self.form(request.POST)
+        images: InMemoryUploadedFile =\
+            request.FILES.get('image')
+        
+        images.name = utils.generate_string() + ".png"
+        data: MusicForm = self.form(
+            request.POST,
+            request.FILES
+        )
         if not data.is_valid():
             return HttpResponse("BAD")
         
