@@ -96,7 +96,7 @@ class CustomUser(
     )
     is_active = models.BooleanField(
         verbose_name='active',
-        default=False
+        default=True
     )
     is_staff = models.BooleanField(
         verbose_name='active',

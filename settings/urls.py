@@ -8,7 +8,11 @@ from musics.views import (
     MusicView,
     TempView,
 )
-from auths import views as au_views
+from auths.views import (
+    RegistrationView,
+    LoginView,
+    activate_user
+)
 
 
 urlpatterns = [
@@ -16,7 +20,9 @@ urlpatterns = [
     path('', MainView.as_view()),
     path('music/', MusicView.as_view()),
     path('temp/', TempView.as_view()),
-    path('activate/<str:code>/', au_views.activate_user)
+    path('activate/<str:code>/', activate_user),
+    path('auths/', LoginView.as_view()),
+    path('auths/registration', RegistrationView.as_view()),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
