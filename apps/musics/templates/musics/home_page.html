@@ -9,8 +9,10 @@
 </head>
 <body>
     <h1 class="main__title">Home</h1>
-    {% for i in u %}
-        <h2>{{ i.title }}</h2>
-    {% endfor %}
+    <div class="card">
+        <span>Name: {{ ctx_user.first_name }}</span>
+        <span>Lastname: {{ ctx_user.last_name }}</span>
+        <span>Email: {{ ctx_user.email }}</span>
+    </div>
 </body>
 </html>

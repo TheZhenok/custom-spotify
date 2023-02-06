@@ -50,7 +50,8 @@ class MainView(HttpResponseMixin, View):
             request=request,
             template_name='musics/home_page.html',
             context={
-                'u': u
+                'u': u,
+                'ctx_user': request.user
             }
         )
 
@@ -70,7 +71,7 @@ class MusicView(HttpResponseMixin, View):
         genres: QuerySet[Genre] = Genre.objects.all()
         return self.get_http_response(
             request=request,
-            template_name='temp_html.html',
+            template_name='musics/temp_html.html',
             context={
                 'ctx_status': status,
                 'ctx_genre': genres,
@@ -133,7 +134,7 @@ class TempView(HttpResponseMixin, View):
     ) -> HttpResponse:
         return self.get_http_response(
             request=request,
-            template_name='temp_html.html',
+            template_name='musics/temp_html.html',
             context={
                 'ctx_form': self.form()
             }

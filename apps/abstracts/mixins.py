@@ -4,6 +4,7 @@ from django.template import (
     loader,
     Template,
 )
+from django.forms.models import ModelFormMetaclass
 
 
 class HttpResponseMixin:
@@ -20,7 +21,7 @@ class HttpResponseMixin:
         
         template: Template =\
             loader.get_template(
-                'musics/' + template_name
+                template_name
             )
 
         return HttpResponse(
@@ -30,3 +31,14 @@ class HttpResponseMixin:
             ),
             content_type=self.content_type
         )
+
+    def get_http_response_and_check_form(
+        self,
+        request,
+        form: ModelFormMetaclass
+    ) -> HttpResponse:
+        form = self.form(request.POST)
+        if not form.is_valid():
+            return HttpResponse('not ok')
+        form.save()
+        return HttpResponse('ok')
