@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="display: flex; flex-direction: column;">
+    <h1>Profile</h1>
+
+    <span>Firstname: {{ ctx_user.first_name }}</span>
+    <span>Lastname: {{ ctx_user.last_name }}</span>
+    <span>Email: {{ ctx_user.email }}</span>
+
+    <a href="/auths/edit">Edit</a>
+    <a href="/auths/change-password">Change password</a>
+</body>
+</html>

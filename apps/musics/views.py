@@ -34,23 +34,14 @@ from musics.forms import (
 class MainView(HttpResponseMixin, View):
     """Main view."""
 
-    queryset: QuerySet = Music.objects.all()
-
     def get(self, request: HttpRequest, *args, **kwargs):
 
-        u: QuerySet
-        try:
-            u = Music.objects.filter(
-                genre=Genre.objects.get(title='Рок').id
-            )
-        except:
-            u = {}
-
+        queryset: QuerySet = Music.objects.all()
         return self.get_http_response(
             request=request,
             template_name='musics/home_page.html',
             context={
-                'u': u,
+                'ctx_musics': queryset,
                 'ctx_user': request.user
             }
         )
