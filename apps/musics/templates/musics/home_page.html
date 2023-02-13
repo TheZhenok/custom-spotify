@@ -8,11 +8,30 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1 class="main__title">Home</h1>
+    <header class="header">
+        <div class="header__controller">
+            <div class="logo"></div>
+            <div class="navs">
+                {% if not ctx_user.is_anonymous %}
+                    <a href="/auths/profile" class="link">Profile</a>
+                    <a href="/auths/log-out" class="link">Log out</a>
+                {% else %}
+                    <a href="/auths/" class="link">Log in</a>
+                    <a href="/auths/registration" class="link">Registration</a>
+                {% endif %}
+                <a href="" class="link">About</a>
+            </div>
+        </div>
+    </header>
     <div class="card">
-        <span>Name: {{ ctx_user.first_name }}</span>
-        <span>Lastname: {{ ctx_user.last_name }}</span>
-        <span>Email: {{ ctx_user.email }}</span>
+        <h1 class="main__title">{{ctx_user.email}}</h1>
+        <h1>Welcome to the site!</h1>
+        <br><br><br>
+        {% for music in ctx_musics %}
+            <h1>{{ music.title }}</h1>
+            <img src="{{ music.image.url }}" alt="" width="100" height="100">
+            <audio controls src="{{ music.audio.url }}"></audio>
+        {% endfor %}
     </div>
 </body>
 </html>

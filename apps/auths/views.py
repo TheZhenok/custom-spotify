@@ -146,3 +146,129 @@ class LoginView(HttpResponseMixin, View):
         login(request, user)
 
         return redirect('/')
+
+
+class LogoutView(HttpResponseMixin, View):
+    """LogoutView."""
+
+    def get(
+        self,
+        request: WSGIRequest,
+        *args: tuple,
+        **kwargs: dict
+    ) -> HttpResponse:
+        if request.user:
+            logout(request)
+        
+        return HttpResponse("Вы вышли")
+
+
+class ProfileView(HttpResponseMixin, View):
+    """ProfileView."""
+
+    template_name: str = "auths/profile.html"
+
+    def get(
+        self,
+        request: WSGIRequest,
+        *args: tuple,
+        **kwargs: dict
+    ) -> HttpResponse:
+        
+        return self.get_http_response(
+            request=request,
+            template_name=self.template_name,
+            context={
+                "ctx_user": request.user
+            }
+        )
+
+
+class EditView(HttpResponseMixin, View):
+    """EditView."""
+
+    template_name: str = "auths/edit.html"
+
+    def get(
+        self,
+        request: WSGIRequest,
+        *args: tuple,
+        **kwargs: dict
+    ) -> HttpResponse:
+        
+        return self.get_http_response(
+            request=request,
+            template_name=self.template_name,
+            context={
+                "ctx_user": request.user
+            }
+        )
+
+    def post(
+        self,
+        request: WSGIRequest,
+        *args: tuple,
+        **kwargs: dict
+    ) -> HttpResponse:
+
+        new_first_name = request.POST.get('first_name')
+        new_last_name = request.POST.get('last_name')
+        user: CustomUser = request.user
+        user.first_name = new_first_name
+        user.last_name = new_last_name
+        user.save(
+            update_fields=(
+                'first_name',
+                'last_name'
+            )
+        )
+
+        return redirect("/auths/profile")
+
+
+class ChangePassowrdView(HttpResponseMixin, View):
+    """Change password view."""
+
+    template_name: str = "auths/change-password.html"
+
+    def get(
+        self,
+        request: WSGIRequest,
+        *args: tuple,
+        **kwargs: dict
+    ) -> HttpResponse:
+        
+        return self.get_http_response(
+            request=request,
+            template_name=self.template_name,
+            context={
+                "ctx_user": request.user
+            }
+        )
+
+    def post(
+        self,
+        request: WSGIRequest,
+        *args: tuple,
+        **kwargs: dict
+    ) -> HttpResponse:
+
+        old_password = request.POST.get('pass')
+        new_password = request.POST.get('pass2')
+        user = authenticate(
+            username=request.user.email,
+            password=old_password
+        )
+        if not user:
+            return HttpResponse("U cant")
+
+        user.password = make_password(
+            new_password
+        )
+        user.save(
+            update_fields=(
+                'password',
+            )
+        )
+
+        return redirect("/auths/profile")

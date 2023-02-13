@@ -106,6 +106,10 @@ class Music(AbstractModel):
         upload_to="images/",
         default=""
     )
+    audio = models.FileField(
+        verbose_name="музыка",
+        upload_to="musics/"
+    )
 
     class Meta:
         ordering = (
